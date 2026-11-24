@@ -1,0 +1,5 @@
+first_model,second_model,validation_condition,mean_first_minus_second,first_higher_pairs,second_higher_pairs,tied_pairs,two_sided_sign_test_p
+day_heavy,balanced,day,0.014694027602672577,5,0,0,0.0625
+day_heavy,night_heavy,day,0.028648602962493896,5,0,0,0.0625
+night_heavy,balanced,night,0.007114770263433457,5,0,0,0.0625
+night_heavy,day_heavy,night,0.01376028060913086,5,0,0,0.0625

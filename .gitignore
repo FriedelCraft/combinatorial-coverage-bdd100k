@@ -1,0 +1,15 @@
+/bdd100k_images_100k/
+/bdd100k_labels/
+/bdd100k_images_100k.zip
+/bdd100k_labels.zip
+/bdd100k_faster_rcnn.zip
+/MAC_F244_Quiz_Master_Study_Guide_Weeks1_to_5.docx
+/output/
+/tmp/
+/Resources/*.pdf
+/bdd100k_faster_rcnn/.chart-data-*/
+/bdd100k_faster_rcnn/.test_tmp/
+/bdd100k_faster_rcnn/professor_materials/.codex-finalizer/
+/bdd100k_faster_rcnn/professor_materials/tmp/
+/bdd100k_faster_rcnn/professor_materials/build/node_modules/
+/bdd100k_faster_rcnn/professor_materials/build/fontlist-*.json

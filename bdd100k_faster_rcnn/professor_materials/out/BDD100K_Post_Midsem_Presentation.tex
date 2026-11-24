@@ -1,0 +1,261 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,booktabs,tabularx,array}
+% Uncomment to print the presenter notes after each slide.
+% \setbeameroption{show notes}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\definecolor{ink}{HTML}{16273C}
+\definecolor{text}{HTML}{24394A}
+\definecolor{accent}{HTML}{126B65}
+\definecolor{muted}{HTML}{4E6473}
+\definecolor{paper}{HTML}{FCFDFB}
+\definecolor{line}{HTML}{CFDCD9}
+\definecolor{tint}{HTML}{E5F2ED}
+
+\setbeamercolor{normal text}{fg=text,bg=paper}
+\setbeamercolor{frametitle}{fg=ink,bg=paper}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamercolor{structure}{fg=accent}
+\setbeamertemplate{footline}{\hbox to \paperwidth{%
+  \hspace{8mm}\color{muted}\scriptsize MAC F266 \enspace / \enspace BDD100K\hfill
+  \insertframenumber\hspace{8mm}}\vskip3mm}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.28}
+\newcommand{\credit}[1]{\vfill{\scriptsize\color{muted}#1\par}}
+\newcommand{\takeaway}[1]{\medskip{\color{accent}\bfseries #1\par}}
+\newcommand{\talkpoint}[2]{%
+  \smallskip{\color{accent}\bfseries #1}\enspace #2\par}
+\begin{document}
+\begin{frame}[plain]
+\vfill
+{\color{accent}\bfseries MAC F266\par}
+\vspace{4mm}
+{\fontsize{25}{29}\selectfont\bfseries\color{ink}
+Target-aware image selection\\for object detection\par}
+\vspace{3mm}
+{\large Post-midsem experiments on BDD100K\par}
+\vspace{7mm}
+Yash Saxena \enspace / \enspace November 2026
+\vfill
+
+\note{I will briefly recap the night result that was already in my midsem report. The new work asks whether the same data selection rule helps in rain, and uses two diagnostics to explain what happened.}
+\end{frame}
+
+\begin{frame}[t]{The nighttime result motivated the rain study}
+{\scriptsize\bfseries\color{accent}MIDSEM RECAP\par}
+\smallskip
+Can we improve detection in a specific condition by changing which 7,500 training images the detector sees?\par\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=1.4400\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=0.5700\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.9900\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Night experiment}} & \textcolor{accent}{\textbf{Night mAP}} & \textcolor{accent}{\textbf{Night images, seed 42}} \\
+\midrule
+Generic coverage & 0.2001 & 1,732 \\
+Night-count control & 0.2095 & 3,851 \\
+\textbf{Night-adaptive coverage} & \textbf{0.2158} & \textbf{3,851} \\
+\bottomrule
+\end{tabularx}
+\par}
+\takeaway{Night-adaptive gained 0.0157 mAP over generic coverage in 5/5 seeds. Matching night counts recovered 0.0094.}
+\credit{Midsem report \S{}\S{}15--16 \textperiodcentered{} Five-seed means}
+\note{The midsem report already included the Faster R-CNN baseline, manual day/night mixtures, combinatorial selector, final night results and the night-count ablation. Night-adaptive improved by 1.57 points on a 0--100 mAP scale. The adaptive-minus-control interval was [\ensuremath{-}0.0019, +0.0145], so the extra benefit from class weighting was uncertain. This motivated testing the same rule for rain.}
+\end{frame}
+
+\begin{frame}[t]{Training-image selection as a set problem}
+{\scriptsize\bfseries\color{accent}METHOD\par}
+\smallskip
+Each image carries tokens for weather, scene, time of day, object classes, box sizes and selected metadata pairs.\par\smallskip
+\[n_t(S)=\sum_{i\in S}\mathbf{1}[t\in A_i],\qquad F(S)=\sum_t w_t\sqrt{n_t(S)},\qquad w_t=f_t^{-1/4}\]
+\talkpoint{Token count}{Each count measures how many selected images carry the token. Its training-pool frequency $f_t$ gives rarer tokens more weight.}
+\talkpoint{Diminishing returns}{An image adds less coverage for tokens that already occur often in the subset.}
+\talkpoint{Budget}{Lazy greedy adds images by marginal gain until it has selected 7,500.}
+\credit{Midsem report \S{}\S{}9--12 \textperiodcentered{} Coverage objective}
+\note{Think of a bipartite incidence relation between images and properties. The square root rewards the first occurrence more than the tenth. Use the appendix if asked for the proof or what the greedy guarantee applies to.}
+\end{frame}
+
+\begin{frame}[t]{Rain adaptation and the matched control}
+{\scriptsize\bfseries\color{accent}RAIN EXPERIMENT\par}
+\smallskip
+For each rainy image, add a rain--class token for every class present. Upweight tokens for classes with a positive AP gap on development data.\par\smallskip
+\[g_c=\max\left(0,\overline{\mathrm{AP}_{\mathrm{nonrain},c}-\mathrm{AP}_{\mathrm{rain},c}}\right),\quad w_{\mathrm{rain},c}=f_{\mathrm{rain},c}^{-1/4}(1+12g_c)\]
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=0.6900\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=1.6500\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=0.6600\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Selector}} & \textcolor{accent}{\textbf{Objective}} & \textcolor{accent}{\textbf{Rainy / 7,500}} \\
+\midrule
+Generic & Generic coverage & 1,455 \\
+Rain-count control & Generic coverage with rain quota & 2,851 \\
+\textbf{Rain-adaptive} & \textbf{Generic coverage plus rain--class tokens} & \textbf{2,851} \\
+\bottomrule
+\end{tabularx}
+\par}
+\credit{Rain experiment protocol \textperiodcentered{} Counts are the same in all five seeds}
+\note{The bar in the formula averages three generic development models, seeds 42 to 44. A class missing AP in either slice gets a zero gap if no paired AP is available. The factor 12 was carried over from development of the night method. It is a heuristic, with no claim of optimality. For a gap of 0.05 the token multiplier is 1.60. The quota control asks whether extra rainy images are enough to match the adaptive selector.}
+\end{frame}
+
+\begin{frame}[t]{Evaluation protocol}
+{\scriptsize\bfseries\color{accent}RAIN EXPERIMENT\par}
+\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=0.5000\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=1.5000\hsize\linewidth=\hsize\raggedright\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Stage}} & \textcolor{accent}{\textbf{What I held fixed or recorded}} \\
+\midrule
+Train & COCO-pretrained Faster R-CNN, ResNet-50 + FPN \\
+Match compute & 7,500 images, 7,500 SGD updates, batch size 2 \\
+Pair runs & Seeds 42--46. Ten new runs plus five existing generic baselines \\
+Choose checkpoint & Lowest development loss at update 3,750 or 7,500 \\
+Score & 532 rainy images in the 8,500-image final partition \\
+\bottomrule
+\end{tabularx}
+\par}
+\takeaway{The protocol was recorded before rain training. The rainy baseline had already been viewed on this partition, so the rain study is exploratory.}
+\credit{Rain experiment protocol \textperiodcentered{} Rainy development slice had 78 images}
+\note{The development data supported two decisions: estimate class AP gaps and pick the checkpoint by overall development loss. All three methods were compared on the same final images at each seed. COCO mAP averages class AP across IoU thresholds from 0.50 to 0.95. The five repeats measure variation across training runs on the same scoring images.}
+\end{frame}
+
+\begin{frame}[t]{The rain study found no clear adaptive gain}
+{\scriptsize\bfseries\color{accent}RAIN RESULTS\par}
+\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=1.2000\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=1.0000\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.7200\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.0800\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Comparison}} & \textcolor{accent}{\textbf{Rain mAP means}} & \textcolor{accent}{\textbf{Mean paired \ensuremath{\Delta}}} & \textcolor{accent}{\textbf{95\% paired interval}} \\
+\midrule
+Adaptive \ensuremath{-} generic & 0.2539 vs 0.2505 & +0.0034 & [\ensuremath{-}0.0173, +0.0241] \\
+Count control \ensuremath{-} generic & 0.2552 vs 0.2505 & +0.0047 & [\ensuremath{-}0.0133, +0.0226] \\
+\textbf{Adaptive \ensuremath{-} count control} & \textbf{0.2539 vs 0.2552} & \textbf{\ensuremath{-}0.0012} & \textbf{[\ensuremath{-}0.0171, +0.0146]} \\
+\bottomrule
+\end{tabularx}
+\par}
+\takeaway{All three intervals cross zero. The adaptive model's overall mAP difference versus generic was \ensuremath{-}0.0009.}
+\credit{Rain experiment results \textperiodcentered{} 5 paired seeds \textperiodcentered{} COCO mAP on a 0--1 scale}
+\note{Start with the last row. Both methods selected exactly 2,851 rainy images, and the adaptive mean was 0.12 points lower on the 0--100 scale. All differences use unrounded run values. Report this as inconclusive evidence of an added rain benefit, with five seeds and a fixed set of images.}
+\end{frame}
+
+\begin{frame}[t]{Four seed pairs favored adaptive coverage}
+{\scriptsize\bfseries\color{accent}RAIN RESULTS\par}
+\smallskip
+One larger loss pulled the adaptive-minus-control mean below zero.\par\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=1.7500\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8750\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Training seed}} & \textcolor{accent}{\textbf{42}} & \textcolor{accent}{\textbf{43}} & \textcolor{accent}{\textbf{44}} & \textcolor{accent}{\textbf{45}} & \textcolor{accent}{\textbf{46}} & \textcolor{accent}{\textbf{Mean}} \\
+\midrule
+\textbf{Rainy mAP difference} & \textbf{\ensuremath{-}0.0229} & \textbf{+0.0022} & \textbf{+0.0111} & \textbf{+0.0024} & \textbf{+0.0010} & \textbf{\ensuremath{-}0.0012} \\
+\bottomrule
+\end{tabularx}
+\par}
+\talkpoint{Seed 42}{The adaptive model was lower by 0.0229 mAP, prompting a class and checkpoint audit.}
+\talkpoint{Subset overlap}{Adaptive and control shared 6,838 of 7,500 training images in every pair.}
+\credit{Rain experiment results \textperiodcentered{} Difference is rain-adaptive minus rain-count control}
+\note{Pair by seed because both methods are evaluated with the same seed index on the same evaluation images. Show all five points and keep seed 42 in the mean. The subset overlap is about 91\%. The adaptive selections also overlap heavily across seeds, so these are repeated training runs on closely related selections.}
+\end{frame}
+
+\begin{frame}[t]{Seed 42 fell across all nine evaluable classes}
+{\scriptsize\bfseries\color{accent}DIAGNOSTICS\par}
+\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=1.1400\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=1.0200\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=0.8400\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Class}} & \textcolor{accent}{\textbf{Seed 42 AP difference}} & \textcolor{accent}{\textbf{Final rainy boxes}} \\
+\midrule
+\textbf{Rider} & \textbf{\ensuremath{-}0.0635} & \textbf{27} \\
+Motorcycle & \ensuremath{-}0.0312 & 22 \\
+Truck & \ensuremath{-}0.0260 & 262 \\
+\bottomrule
+\end{tabularx}
+\par}
+\talkpoint{Rider}{AP was lower in 5/5 pairs, despite an unchanged rainy rider-box count in training.}
+\talkpoint{Composition}{Adaptive training had more rainy boxes for most classes. Seed 42 included 135 fewer rainy nighttime images than the control.}
+\credit{Rain class analysis \textperiodcentered{} The three largest seed 42 AP drops versus rain-count control}
+\note{All nine classes with rainy ground truth scored lower for the selected adaptive checkpoint. There were no train-class boxes on the rainy final slice. Rider had 27 boxes in 24 images and no positive development AP gap. Highlight the limited sample when interpreting the result. Saved class AP and metadata give aggregate patterns rather than a count of missed objects per image.}
+\end{frame}
+
+\begin{frame}[t]{The later checkpoint recovered most of the gap}
+{\scriptsize\bfseries\color{accent}DIAGNOSTICS\par}
+\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=1.3500\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=0.5500\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.0250\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.0250\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.0500\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Rainy final slice}} & \textcolor{accent}{\textbf{Images}} & \textcolor{accent}{\textbf{Adaptive 3,750}} & \textcolor{accent}{\textbf{Adaptive 7,500}} & \textcolor{accent}{\textbf{Control 7,500}} \\
+\midrule
+\textbf{All rainy} & \textbf{532} & \textbf{0.2368} & \textbf{0.2560} & \textbf{0.2597} \\
+Daytime & 292 & 0.2544 & 0.2773 & 0.2752 \\
+Nighttime & 198 & 0.2430 & 0.2641 & 0.2847 \\
+Dawn / dusk & 42 & 0.2853 & 0.2886 & 0.2884 \\
+\bottomrule
+\end{tabularx}
+\par}
+\takeaway{The later adaptive checkpoint closed 84\% of the pooled gap. At equal steps, rainy nighttime mAP was still 0.0206 lower.}
+\credit{Seed 42 checkpoint diagnostic \textperiodcentered{} Saved checkpoints \textperiodcentered{} Inference only}
+\note{I scored the saved early and late adaptive checkpoints and the late count-control checkpoint. The early checkpoint remains the reported result because its development loss was 1.1121 versus 1.1243 at the later step. The later score is a post hoc diagnostic. The rain--night mix is a possible factor in the remaining gap, but image identities and training dynamics also differ.}
+\end{frame}
+
+\begin{frame}[t]{What the night and rain experiments establish}
+{\scriptsize\bfseries\color{accent}CONCLUSION\par}
+\smallskip
+\talkpoint{Night}{Adaptive selection improved night mAP by 0.0157 over generic coverage. Matching the nighttime count recovered a substantial share.}
+\talkpoint{Rain}{The same selection rule gave mixed results and no clear gain over the matched rainy count.}
+\talkpoint{Next experiment}{Freeze a fresh evaluation split and a common checkpoint step before testing the rain rule again.}
+\takeaway{A coverage objective gives a principled way to choose a subset. Its detector benefit depends on the target condition and must be measured.}
+\credit{Limits \textperiodcentered{} One detector, one dataset, one training budget}
+\note{My contribution after midsem was the transfer test to rain, the rain-count comparison, the class audit and a checkpoint diagnostic by time of day. State that the fresh holdout is future work. Two endpoints worth declaring are rainy mAP as primary and rainy nighttime mAP as secondary.}
+\end{frame}
+\appendix
+
+\begin{frame}[t]{Why the coverage objective is submodular}
+{\scriptsize\bfseries\color{accent}APPENDIX\par}
+\smallskip
+\[\Delta(i\mid S)=\sum_{t\in A_i}\frac{w_t}{\sqrt{n_t(S)+1}+\sqrt{n_t(S)}}\]
+\talkpoint{Diminishing returns}{$\Delta(i\mid A)\geq\Delta(i\mid B)$ when A is contained in B and i is outside B. Every token count is at most as large in A.}
+\talkpoint{Greedy bound}{For a cardinality budget, exact greedy reaches at least 1 \ensuremath{-} 1/e of the optimal coverage score.}
+\talkpoint{Scope of the bound}{The theorem concerns the coverage surrogate with a cardinality constraint. The exact-quota controls have a different feasible family.}
+\credit{Nemhauser, Wolsey \& Fisher (1978) \textperiodcentered{} Midsem report \S{}\S{}11--12}
+\note{Rationalize $\sqrt{n+1}-\sqrt n$ to get the displayed expression. Nonnegative weights also give monotonicity, and the empty set has score zero. The bound applies to the surrogate F. Detector mAP is evaluated empirically.}
+\end{frame}
+
+\begin{frame}[t]{Per-seed rain scores and uncertainty}
+{\scriptsize\bfseries\color{accent}APPENDIX\par}
+\smallskip
+\smallskip
+{\small
+\begin{tabularx}{\linewidth}{>{\hsize=0.6400\hsize\linewidth=\hsize\raggedright\arraybackslash}X>{\hsize=1.0000\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.3600\hsize\linewidth=\hsize\centering\arraybackslash}X>{\hsize=1.0000\hsize\linewidth=\hsize\centering\arraybackslash}X}
+\toprule
+\textcolor{accent}{\textbf{Seed}} & \textcolor{accent}{\textbf{Generic}} & \textcolor{accent}{\textbf{Rain-count control}} & \textcolor{accent}{\textbf{Rain-adaptive}} \\
+\midrule
+42 & 0.2551 & 0.2597 & 0.2368 \\
+43 & 0.2569 & 0.2537 & 0.2559 \\
+44 & 0.2598 & 0.2455 & 0.2567 \\
+45 & 0.2396 & 0.2526 & 0.2550 \\
+46 & 0.2411 & 0.2644 & 0.2654 \\
+\textbf{Mean} & \textbf{0.2505} & \textbf{0.2552} & \textbf{0.2539} \\
+\bottomrule
+\end{tabularx}
+\par}
+\[\bar d\ \pm\ t_{0.975,4}\,\frac{s_d}{\sqrt{5}}\]
+\credit{Rain experiment results \textperiodcentered{} Interval reflects seed variation on the fixed 532-image slice}
+\note{Compute the paired difference within each seed using full-precision AP, then average and calculate the t interval with four degrees of freedom. The interval does not include uncertainty from sampling new evaluation scenes.}
+\end{frame}
+
+\begin{frame}[t]{References and experiment records}
+{\scriptsize\bfseries\color{accent}APPENDIX\par}
+\smallskip
+\talkpoint{Dataset}{Yu et al., BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning, CVPR 2020.}
+\talkpoint{Detector}{Ren et al., Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks, NeurIPS 2015.}
+\talkpoint{Optimization}{Nemhauser, Wolsey and Fisher, An Analysis of Approximations for Maximizing Submodular Set Functions---I, Mathematical Programming, 1978.}
+\talkpoint{Project record}{Midsem report \S{}\S{}9--16, rain experiment protocol, five-seed rain results, class analysis and seed 42 checkpoint diagnostic.}
+\credit{MAC F266 \textperiodcentered{} BDD100K project}
+\note{Use this slide if asked about references or reproducibility. Training manifests, checkpoint histories, final metric files and the diagnostic scripts are available in the project folder.}
+\end{frame}
+
+\end{document}

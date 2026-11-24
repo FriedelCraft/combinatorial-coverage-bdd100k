@@ -1,0 +1,31 @@
+subset,weather,scene,timeofday,image_count
+day_heavy,clear,city street,daytime,1200
+day_heavy,clear,city street,night,300
+day_heavy,clear,highway,daytime,1200
+day_heavy,clear,highway,night,300
+day_heavy,clear,residential,daytime,1200
+day_heavy,clear,residential,night,300
+day_heavy,rainy,city street,daytime,1200
+day_heavy,rainy,city street,night,300
+day_heavy,snowy,city street,daytime,1200
+day_heavy,snowy,city street,night,300
+balanced,clear,city street,daytime,750
+balanced,clear,city street,night,750
+balanced,clear,highway,daytime,750
+balanced,clear,highway,night,750
+balanced,clear,residential,daytime,750
+balanced,clear,residential,night,750
+balanced,rainy,city street,daytime,750
+balanced,rainy,city street,night,750
+balanced,snowy,city street,daytime,750
+balanced,snowy,city street,night,750
+night_heavy,clear,city street,daytime,300
+night_heavy,clear,city street,night,1200
+night_heavy,clear,highway,daytime,300
+night_heavy,clear,highway,night,1200
+night_heavy,clear,residential,daytime,300
+night_heavy,clear,residential,night,1200
+night_heavy,rainy,city street,daytime,300
+night_heavy,rainy,city street,night,1200
+night_heavy,snowy,city street,daytime,300
+night_heavy,snowy,city street,night,1200

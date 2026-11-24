@@ -1,0 +1,4 @@
+subset_a,subset_b,shared_images,shared_fraction
+day_heavy,balanced,5250,0.7
+day_heavy,night_heavy,3000,0.4
+balanced,night_heavy,5250,0.7

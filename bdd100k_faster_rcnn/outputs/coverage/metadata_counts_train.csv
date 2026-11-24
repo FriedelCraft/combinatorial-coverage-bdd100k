@@ -1,0 +1,19 @@
+attribute,value,image_count
+weather,clear,37412
+weather,overcast,8784
+weather,undefined,8134
+weather,snowy,5571
+weather,rainy,5083
+weather,partly cloudy,4886
+weather,foggy,130
+scene,city street,43581
+scene,highway,17414
+scene,residential,8105
+scene,parking lot,378
+scene,undefined,366
+scene,tunnel,129
+scene,gas stations,27
+timeofday,daytime,36800
+timeofday,night,28028
+timeofday,dawn/dusk,5033
+timeofday,undefined,139

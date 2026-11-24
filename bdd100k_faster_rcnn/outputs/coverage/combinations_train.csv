@@ -1,0 +1,127 @@
+weather,scene,timeofday,image_count,total_boxes,person,car,rider,truck,bus,train,motor,bike,traffic light,traffic sign
+clear,city street,night,15090,275161,14647,146085,651,3001,1368,17,487,1177,57675,50053
+clear,city street,daytime,6647,144904,14414,74967,951,4390,1867,24,692,1320,20569,25710
+clear,highway,night,6168,77623,429,46400,68,1093,326,9,63,45,7875,21315
+undefined,city street,daytime,5001,112270,20123,48848,761,3167,1449,3,395,1470,16755,19299
+overcast,city street,daytime,4411,105535,11799,52269,605,2966,1212,9,303,919,16149,19304
+clear,highway,daytime,3582,57681,933,37303,142,2251,662,8,93,135,3009,13145
+partly cloudy,city street,daytime,2225,51576,4874,26849,235,1627,628,2,159,355,7598,9249
+clear,residential,daytime,2134,35916,1379,25947,117,734,183,4,117,163,2383,4889
+overcast,highway,daytime,1966,33629,497,21632,51,1348,372,6,29,43,1803,7848
+snowy,city street,daytime,1908,39321,5033,18207,114,1519,564,10,51,265,6538,7020
+snowy,city street,night,1789,30722,1597,15620,55,396,165,0,29,121,6944,5795
+rainy,city street,daytime,1640,34451,3825,16282,110,1158,494,8,53,231,6426,5864
+rainy,city street,night,1556,27090,1209,14034,44,309,177,3,35,96,6331,4852
+partly cloudy,highway,daytime,1479,23719,358,14922,36,994,290,17,32,21,1422,5627
+clear,residential,night,1430,21661,219,16635,24,149,50,0,33,47,1935,2569
+overcast,residential,daytime,1118,20003,616,14747,42,331,97,0,45,50,1301,2774
+undefined,residential,daytime,1063,17541,671,13070,57,258,93,0,58,108,981,2245
+clear,city street,dawn/dusk,1044,21135,1467,11621,77,445,248,1,55,130,3440,3651
+undefined,highway,daytime,891,12876,508,7994,34,340,136,2,16,27,917,2902
+clear,highway,dawn/dusk,693,10620,95,7135,13,326,84,1,11,9,571,2375
+overcast,city street,dawn/dusk,675,15352,1356,7973,58,382,184,2,37,86,2661,2613
+rainy,highway,daytime,539,7843,113,4721,12,354,94,0,5,11,681,1852
+partly cloudy,residential,daytime,530,9082,296,6508,31,209,48,0,34,38,623,1295
+snowy,residential,daytime,492,7436,240,5261,9,146,57,1,3,17,637,1065
+rainy,highway,night,488,6148,80,3517,2,101,43,0,2,3,900,1500
+snowy,highway,daytime,445,6707,102,4076,4,332,93,3,1,14,419,1663
+undefined,city street,dawn/dusk,396,8829,1244,4108,61,175,122,0,31,89,1481,1518
+overcast,highway,dawn/dusk,347,5815,57,3935,6,187,50,1,5,2,293,1279
+rainy,residential,daytime,324,5199,129,3854,12,86,36,0,21,15,419,627
+partly cloudy,city street,dawn/dusk,315,7017,536,3687,51,177,80,1,22,46,1144,1273
+snowy,city street,dawn/dusk,310,6526,719,3046,16,150,83,2,8,44,1284,1174
+clear,residential,dawn/dusk,249,4262,106,3138,4,62,21,1,14,10,280,626
+undefined,city street,night,235,3580,297,1798,8,74,25,0,6,31,703,638
+snowy,residential,night,232,3502,39,2558,3,37,7,0,5,1,394,458
+snowy,highway,night,219,2882,23,1646,2,41,17,0,4,1,424,724
+rainy,city street,dawn/dusk,206,4227,430,2075,10,80,56,0,5,22,831,718
+partly cloudy,highway,dawn/dusk,204,3197,31,2194,5,111,26,0,10,1,190,629
+clear,undefined,night,157,1756,14,1375,0,16,10,0,1,0,139,201
+rainy,residential,night,123,1806,26,1361,6,13,2,0,2,6,193,197
+overcast,residential,dawn/dusk,122,2185,79,1616,8,36,9,0,6,3,182,246
+undefined,highway,night,99,1092,11,661,0,10,3,1,0,2,124,280
+clear,parking lot,daytime,84,1356,36,1139,1,30,15,0,2,0,22,111
+rainy,highway,dawn/dusk,79,1132,2,726,0,42,14,0,1,0,90,257
+snowy,residential,dawn/dusk,76,1360,61,979,1,18,6,0,1,3,137,154
+undefined,tunnel,undefined,72,417,12,328,2,16,12,0,2,0,17,28
+clear,parking lot,night,71,959,28,759,0,21,6,0,0,0,57,88
+undefined,highway,dawn/dusk,67,1045,22,737,1,14,9,0,0,1,54,207
+undefined,undefined,night,63,418,5,307,0,4,6,0,0,0,44,52
+undefined,residential,dawn/dusk,62,1163,47,881,2,12,3,0,2,16,86,114
+overcast,parking lot,daytime,56,1103,40,876,1,15,6,0,3,1,26,135
+partly cloudy,residential,dawn/dusk,48,852,25,582,2,22,5,0,2,2,93,119
+snowy,highway,dawn/dusk,46,642,8,435,0,23,7,0,0,0,20,149
+foggy,city street,night,43,668,13,417,1,8,1,0,0,3,127,98
+overcast,city street,night,41,891,125,460,2,14,6,0,2,3,158,121
+rainy,residential,dawn/dusk,41,667,3,541,0,13,3,0,1,1,33,72
+rainy,undefined,night,36,403,2,276,0,4,4,0,0,1,54,62
+partly cloudy,parking lot,daytime,31,568,4,482,0,6,3,0,0,0,28,45
+undefined,tunnel,daytime,29,207,2,153,1,13,0,0,0,1,2,35
+undefined,undefined,daytime,28,237,16,159,2,4,3,0,0,3,13,37
+overcast,highway,night,27,354,6,210,0,8,3,0,0,0,29,98
+undefined,parking lot,daytime,27,325,11,257,1,7,5,0,1,0,16,27
+undefined,residential,night,25,309,11,236,1,0,1,0,2,9,20,29
+partly cloudy,highway,night,24,357,9,219,0,7,5,0,0,0,46,71
+clear,undefined,daytime,23,215,12,104,2,14,4,0,1,0,27,51
+partly cloudy,city street,night,23,553,109,218,2,12,0,0,2,2,90,118
+undefined,parking lot,undefined,23,197,11,167,0,3,0,0,0,0,0,16
+foggy,highway,daytime,20,253,1,151,0,9,3,0,0,0,23,66
+snowy,parking lot,daytime,18,240,6,190,0,7,0,0,0,0,1,36
+foggy,residential,daytime,17,239,3,174,3,4,1,0,1,2,21,30
+foggy,highway,night,16,142,0,84,0,5,0,0,1,0,11,41
+clear,parking lot,dawn/dusk,13,284,8,229,1,5,0,0,0,1,12,28
+rainy,parking lot,daytime,13,167,2,136,0,8,0,0,0,0,7,14
+undefined,tunnel,night,13,78,0,62,0,0,0,0,0,0,4,12
+rainy,undefined,daytime,12,86,3,55,0,1,2,0,0,0,12,13
+foggy,city street,daytime,11,210,17,104,0,2,3,0,0,1,44,39
+undefined,undefined,undefined,11,60,10,38,0,0,1,0,0,0,2,9
+snowy,undefined,night,10,68,0,52,0,4,0,0,0,0,3,9
+snowy,parking lot,night,9,103,4,74,0,3,0,0,0,0,8,14
+foggy,residential,night,8,112,0,88,0,0,1,0,0,0,12,11
+snowy,undefined,daytime,8,69,10,33,0,6,0,0,0,0,5,15
+undefined,highway,undefined,8,129,6,62,0,2,3,0,0,0,19,37
+undefined,parking lot,night,8,85,8,66,0,1,0,0,0,0,0,10
+clear,gas stations,night,7,62,6,30,0,2,0,0,0,0,9,15
+foggy,city street,dawn/dusk,7,135,5,81,0,1,2,0,0,1,32,13
+overcast,undefined,daytime,7,72,2,34,0,5,0,0,0,0,13,18
+undefined,city street,undefined,7,114,15,71,0,5,1,0,0,0,7,15
+clear,gas stations,daytime,6,65,7,47,0,2,0,0,0,0,1,8
+clear,tunnel,night,6,75,0,61,0,0,2,0,0,0,7,5
+foggy,highway,dawn/dusk,5,85,0,63,0,1,2,0,0,0,3,16
+overcast,parking lot,dawn/dusk,5,90,5,76,0,1,0,0,0,0,5,3
+rainy,parking lot,night,5,51,0,49,0,0,0,0,0,0,0,2
+rainy,undefined,undefined,5,34,2,18,0,1,3,0,0,0,6,4
+snowy,parking lot,dawn/dusk,5,37,3,27,0,0,0,0,0,0,2,5
+overcast,gas stations,daytime,4,44,5,29,0,1,0,0,0,0,7,2
+rainy,tunnel,undefined,4,45,0,40,0,1,1,0,0,0,1,2
+clear,gas stations,dawn/dusk,3,44,2,33,0,0,0,0,0,0,8,1
+overcast,residential,night,3,40,1,37,0,0,0,0,0,0,0,2
+foggy,residential,dawn/dusk,2,12,0,12,0,0,0,0,0,0,0,0
+partly cloudy,parking lot,dawn/dusk,2,33,2,29,0,0,1,0,0,0,0,1
+partly cloudy,residential,night,2,41,0,38,0,0,0,0,0,0,1,2
+rainy,gas stations,daytime,2,10,1,7,0,0,0,0,0,0,0,2
+rainy,highway,undefined,2,12,0,10,0,1,0,0,0,0,0,1
+rainy,parking lot,dawn/dusk,2,9,1,6,0,1,0,0,0,0,1,0
+rainy,tunnel,daytime,2,24,0,15,0,0,0,0,0,0,8,1
+snowy,gas stations,daytime,2,26,3,19,0,2,0,0,0,0,0,2
+undefined,gas stations,daytime,2,21,0,19,0,0,0,0,0,0,0,2
+undefined,parking lot,dawn/dusk,2,14,0,10,0,1,0,0,0,0,0,3
+clear,parking lot,undefined,1,12,1,11,0,0,0,0,0,0,0,0
+clear,residential,undefined,1,20,0,17,0,0,0,0,0,0,1,2
+clear,tunnel,dawn/dusk,1,23,0,15,0,5,0,0,0,0,0,3
+clear,tunnel,daytime,1,4,0,4,0,0,0,0,0,0,0,0
+clear,undefined,dawn/dusk,1,5,4,0,0,1,0,0,0,0,0,0
+foggy,parking lot,dawn/dusk,1,4,1,0,0,0,0,0,0,0,0,3
+overcast,parking lot,night,1,8,0,7,0,0,0,0,0,0,0,1
+overcast,undefined,dawn/dusk,1,19,1,7,0,0,0,0,0,0,7,4
+partly cloudy,gas stations,daytime,1,11,0,5,0,0,0,0,0,0,0,6
+partly cloudy,undefined,dawn/dusk,1,8,0,7,0,1,0,0,0,0,0,0
+partly cloudy,undefined,daytime,1,4,0,1,0,0,0,0,0,0,2,1
+rainy,parking lot,undefined,1,10,1,9,0,0,0,0,0,0,0,0
+rainy,residential,undefined,1,13,2,8,0,0,0,0,0,0,3,0
+rainy,tunnel,night,1,7,0,6,0,0,0,0,0,0,0,1
+rainy,undefined,dawn/dusk,1,12,4,8,0,0,0,0,0,0,0,0
+snowy,city street,undefined,1,23,12,7,0,1,0,0,0,0,3,0
+snowy,residential,undefined,1,16,0,11,0,1,0,0,0,0,0,4
+undefined,residential,undefined,1,11,0,11,0,0,0,0,0,0,0,0
+undefined,undefined,dawn/dusk,1,5,0,1,0,1,0,0,0,0,0,3

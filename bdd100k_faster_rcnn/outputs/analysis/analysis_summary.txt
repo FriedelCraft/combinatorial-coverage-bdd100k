@@ -1,0 +1,49 @@
+BDD100K COVERAGE–PERFORMANCE ANALYSIS
+====================================
+
+Combination coverage
+--------------------
+Combinations present in both splits: 91
+Training-only combinations:          35
+Validation-only combinations:        6
+
+Validation reliability
+----------------------
+Primary combinations:      20
+Exploratory combinations:  17
+Insufficient combinations: 60
+
+Fixed-class coverage relationship
+---------------------------------
+Primary training-image coverage vs common-four-class mAP: Spearman rho=-0.0241, p=0.9198, n=20.
+The common-four metric averages person, car, traffic light, and traffic sign AP in every slice.
+
+Primary fixed-class performance range
+-------------------------------------
+Mean:   0.3051
+Median: 0.3098
+Minimum: 0.2632
+Maximum: 0.3267
+
+Matched daytime vs night-time comparison
+----------------------------------------
+Matched pairs:                  5
+Daytime mean common-four mAP:  0.3172
+Night mean common-four mAP:    0.2788
+Mean night-minus-day change:  -0.0384
+Relative mean change:          -12.10%
+Pairs lower at night:          5/5
+Two-sided sign-test p-value:   0.0625
+
+Interpret the paired result descriptively because the number of matched primary combinations is small.
+
+Average night-minus-day AP by class
+-----------------------------------
+person           -0.0578
+car              -0.0540
+traffic light    -0.0675
+traffic sign     +0.0258
+
+Important interpretation note
+-----------------------------
+Raw slice mAP is not directly comparable when slices contain different sets of classes. Use common4_map_50_95 or compare the same class across slices. Treat combinations with fewer than 25 validation images as coverage gaps rather than stable performance estimates.

@@ -1,0 +1,49 @@
+BDD100K CONTROLLED COVERAGE EXPERIMENT
+======================================
+
+Primary metric
+--------------
+Mean AP across person, car, traffic light, and traffic sign, calculated
+within the same five matched weather/scene strata for daytime and night.
+
+Controlled-model summary
+------------------------
+Day-heavy    day=0.2711, night=0.2208, night-day=-0.0503 (-18.56%)
+Balanced     day=0.2564, night=0.2274, night-day=-0.0290 (-11.30%)
+Night-heavy  day=0.2425, night=0.2346, night-day=-0.0079 (-3.27%)
+
+Directional comparisons across the five matched strata
+--------------------------------------------------------
+day_heavy minus balanced on day: mean=+0.0147; first higher in 5/5; two-sided sign-test p=0.0625.
+day_heavy minus night_heavy on day: mean=+0.0286; first higher in 5/5; two-sided sign-test p=0.0625.
+night_heavy minus balanced on night: mean=+0.0071; first higher in 5/5; two-sided sign-test p=0.0625.
+night_heavy minus day_heavy on night: mean=+0.0138; first higher in 5/5; two-sided sign-test p=0.0625.
+
+Full-data reference
+-------------------
+Day mean common-four mAP:   0.3172
+Night mean common-four mAP: 0.2788
+Night-minus-day gap:        -0.0384
+
+Overall validation mAP
+----------------------
+Full 70k baseline  0.2427
+Day-heavy          0.1880
+Balanced           0.1629
+Night-heavy        0.1610
+
+Interpretation
+--------------
+Increasing night-time training coverage produced an ordered trade-off:
+daytime performance decreased while night-time performance increased.
+The night-heavy model therefore reduced the day/night performance gap,
+but the day-heavy model retained higher daytime and overall accuracy.
+
+Statistical caution
+-------------------
+The sign tests use only five matched weather/scene strata. A result of
+5/5 in one direction has two-sided p=0.0625, so it is strong descriptive
+evidence but does not cross the conventional 0.05 threshold. There was
+also only one training run per condition, so random-seed variability has
+not been estimated. Object-class frequencies differ between the real
+day/night subsets and should be reported as a secondary coverage factor.

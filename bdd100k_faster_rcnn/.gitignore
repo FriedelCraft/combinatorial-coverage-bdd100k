@@ -1,0 +1,14 @@
+__pycache__/
+.venv/
+*.py[cod]
+.pytest_cache/
+outputs/
+*.pth
+*.pt
+*.ckpt
+*.jpg
+*.jpeg
+*.png
+*.zip
+feature_cache/
+

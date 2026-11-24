@@ -1,0 +1,415 @@
+[
+  {
+    "section": "",
+    "title": "Target-aware image selection for object detection",
+    "subtitle": "Post-midsem experiments on BDD100K",
+    "notes": "I will briefly recap the night result that was already in my midsem report. The new work asks whether the same data selection rule helps in rain, and uses two diagnostics to explain what happened."
+  },
+  {
+    "section": "MIDSEM RECAP",
+    "title": "The nighttime result motivated the rain study",
+    "lead": "Can we improve detection in a specific condition by changing which 7,500 training images the detector sees?",
+    "table": {
+      "heads": [
+        "Night experiment",
+        "Night mAP",
+        "Night images, seed 42"
+      ],
+      "rows": [
+        [
+          "Generic coverage",
+          "0.2001",
+          "1,732"
+        ],
+        [
+          "Night-count control",
+          "0.2095",
+          "3,851"
+        ],
+        [
+          "Night-adaptive coverage",
+          "0.2158",
+          "3,851"
+        ]
+      ],
+      "emphasis": 2
+    },
+    "callout": "Night-adaptive gained 0.0157 mAP over generic coverage in 5/5 seeds. Matching night counts recovered 0.0094.",
+    "source": "Midsem report §§15–16 · Five-seed means",
+    "notes": "The midsem report already included the Faster R-CNN baseline, manual day/night mixtures, combinatorial selector, final night results and the night-count ablation. Night-adaptive improved by 1.57 points on a 0–100 mAP scale. The adaptive-minus-control interval was [−0.0019, +0.0145], so the extra benefit from class weighting was uncertain. This motivated testing the same rule for rain."
+  },
+  {
+    "section": "METHOD",
+    "title": "Training-image selection as a set problem",
+    "lead": "Each image carries tokens for weather, scene, time of day, object classes, box sizes and selected metadata pairs.",
+    "math": "n_t(S)=\\sum_{i\\in S}\\mathbf{1}[t\\in A_i],\\qquad F(S)=\\sum_t w_t\\sqrt{n_t(S)},\\qquad w_t=f_t^{-1/4}",
+    "bullets": [
+      [
+        "Token count",
+        "Each count measures how many selected images carry the token. Its training-pool frequency fₜ gives rarer tokens more weight."
+      ],
+      [
+        "Diminishing returns",
+        "An image adds less coverage for tokens that already occur often in the subset."
+      ],
+      [
+        "Budget",
+        "Lazy greedy adds images by marginal gain until it has selected 7,500."
+      ]
+    ],
+    "source": "Midsem report §§9–12 · Coverage objective",
+    "notes": "Think of a bipartite incidence relation between images and properties. The square root rewards the first occurrence more than the tenth. Use the appendix if asked for the proof or what the greedy guarantee applies to."
+  },
+  {
+    "section": "RAIN EXPERIMENT",
+    "title": "Rain adaptation and the matched control",
+    "lead": "For each rainy image, add a rain–class token for every class present. Upweight tokens for classes with a positive AP gap on development data.",
+    "math": "g_c=\\max\\left(0,\\overline{\\mathrm{AP}_{\\mathrm{nonrain},c}-\\mathrm{AP}_{\\mathrm{rain},c}}\\right),\\quad w_{\\mathrm{rain},c}=f_{\\mathrm{rain},c}^{-1/4}(1+12g_c)",
+    "table": {
+      "heads": [
+        "Selector",
+        "Objective",
+        "Rainy / 7,500"
+      ],
+      "rows": [
+        [
+          "Generic",
+          "Generic coverage",
+          "1,455"
+        ],
+        [
+          "Rain-count control",
+          "Generic coverage with rain quota",
+          "2,851"
+        ],
+        [
+          "Rain-adaptive",
+          "Generic coverage plus rain–class tokens",
+          "2,851"
+        ]
+      ],
+      "emphasis": 2
+    },
+    "source": "Rain experiment protocol · Counts are the same in all five seeds",
+    "notes": "The bar in the formula averages three generic development models, seeds 42 to 44. A class missing AP in either slice gets a zero gap if no paired AP is available. The factor 12 was carried over from development of the night method. It is a heuristic, with no claim of optimality. For a gap of 0.05 the token multiplier is 1.60. The quota control asks whether extra rainy images are enough to match the adaptive selector."
+  },
+  {
+    "section": "RAIN EXPERIMENT",
+    "title": "Evaluation protocol",
+    "table": {
+      "heads": [
+        "Stage",
+        "What I held fixed or recorded"
+      ],
+      "rows": [
+        [
+          "Train",
+          "COCO-pretrained Faster R-CNN, ResNet-50 + FPN"
+        ],
+        [
+          "Match compute",
+          "7,500 images, 7,500 SGD updates, batch size 2"
+        ],
+        [
+          "Pair runs",
+          "Seeds 42–46. Ten new runs plus five existing generic baselines"
+        ],
+        [
+          "Choose checkpoint",
+          "Lowest development loss at update 3,750 or 7,500"
+        ],
+        [
+          "Score",
+          "532 rainy images in the 8,500-image final partition"
+        ]
+      ]
+    },
+    "callout": "The protocol was recorded before rain training. The rainy baseline had already been viewed on this partition, so the rain study is exploratory.",
+    "source": "Rain experiment protocol · Rainy development slice had 78 images",
+    "notes": "The development data supported two decisions: estimate class AP gaps and pick the checkpoint by overall development loss. All three methods were compared on the same final images at each seed. COCO mAP averages class AP across IoU thresholds from 0.50 to 0.95. The five repeats measure variation across training runs on the same scoring images."
+  },
+  {
+    "section": "RAIN RESULTS",
+    "title": "The rain study found no clear adaptive gain",
+    "table": {
+      "heads": [
+        "Comparison",
+        "Rain mAP means",
+        "Mean paired Δ",
+        "95% paired interval"
+      ],
+      "rows": [
+        [
+          "Adaptive − generic",
+          "0.2539 vs 0.2505",
+          "+0.0034",
+          "[−0.0173, +0.0241]"
+        ],
+        [
+          "Count control − generic",
+          "0.2552 vs 0.2505",
+          "+0.0047",
+          "[−0.0133, +0.0226]"
+        ],
+        [
+          "Adaptive − count control",
+          "0.2539 vs 0.2552",
+          "−0.0012",
+          "[−0.0171, +0.0146]"
+        ]
+      ],
+      "emphasis": 2
+    },
+    "callout": "All three intervals cross zero. The adaptive model’s overall mAP difference versus generic was −0.0009.",
+    "source": "Rain experiment results · 5 paired seeds · COCO mAP on a 0–1 scale",
+    "notes": "Start with the last row. Both methods selected exactly 2,851 rainy images, and the adaptive mean was 0.12 points lower on the 0–100 scale. All differences use unrounded run values. Report this as inconclusive evidence of an added rain benefit, with five seeds and a fixed set of images."
+  },
+  {
+    "section": "RAIN RESULTS",
+    "title": "Four seed pairs favored adaptive coverage",
+    "lead": "One larger loss pulled the adaptive-minus-control mean below zero.",
+    "table": {
+      "heads": [
+        "Training seed",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "Mean"
+      ],
+      "rows": [
+        [
+          "Rainy mAP difference",
+          "−0.0229",
+          "+0.0022",
+          "+0.0111",
+          "+0.0024",
+          "+0.0010",
+          "−0.0012"
+        ]
+      ],
+      "emphasis": 0
+    },
+    "bullets": [
+      [
+        "Seed 42",
+        "The adaptive model was lower by 0.0229 mAP, prompting a class and checkpoint audit."
+      ],
+      [
+        "Subset overlap",
+        "Adaptive and control shared 6,838 of 7,500 training images in every pair."
+      ]
+    ],
+    "source": "Rain experiment results · Difference is rain-adaptive minus rain-count control",
+    "notes": "Pair by seed because both methods are evaluated with the same seed index on the same evaluation images. Show all five points and keep seed 42 in the mean. The subset overlap is about 91%. The adaptive selections also overlap heavily across seeds, so these are repeated training runs on closely related selections."
+  },
+  {
+    "section": "DIAGNOSTICS",
+    "title": "Seed 42 fell across all nine evaluable classes",
+    "table": {
+      "heads": [
+        "Class",
+        "Seed 42 AP difference",
+        "Final rainy boxes"
+      ],
+      "rows": [
+        [
+          "Rider",
+          "−0.0635",
+          "27"
+        ],
+        [
+          "Motorcycle",
+          "−0.0312",
+          "22"
+        ],
+        [
+          "Truck",
+          "−0.0260",
+          "262"
+        ]
+      ],
+      "emphasis": 0
+    },
+    "bullets": [
+      [
+        "Rider",
+        "AP was lower in 5/5 pairs, despite an unchanged rainy rider-box count in training."
+      ],
+      [
+        "Composition",
+        "Adaptive training had more rainy boxes for most classes. Seed 42 included 135 fewer rainy nighttime images than the control."
+      ]
+    ],
+    "source": "Rain class analysis · The three largest seed 42 AP drops versus rain-count control",
+    "notes": "All nine classes with rainy ground truth scored lower for the selected adaptive checkpoint. There were no train-class boxes on the rainy final slice. Rider had 27 boxes in 24 images and no positive development AP gap. Highlight the limited sample when interpreting the result. Saved class AP and metadata give aggregate patterns rather than a count of missed objects per image."
+  },
+  {
+    "section": "DIAGNOSTICS",
+    "title": "The later checkpoint recovered most of the gap",
+    "table": {
+      "heads": [
+        "Rainy final slice",
+        "Images",
+        "Adaptive 3,750",
+        "Adaptive 7,500",
+        "Control 7,500"
+      ],
+      "rows": [
+        [
+          "All rainy",
+          "532",
+          "0.2368",
+          "0.2560",
+          "0.2597"
+        ],
+        [
+          "Daytime",
+          "292",
+          "0.2544",
+          "0.2773",
+          "0.2752"
+        ],
+        [
+          "Nighttime",
+          "198",
+          "0.2430",
+          "0.2641",
+          "0.2847"
+        ],
+        [
+          "Dawn / dusk",
+          "42",
+          "0.2853",
+          "0.2886",
+          "0.2884"
+        ]
+      ],
+      "emphasis": 0
+    },
+    "callout": "The later adaptive checkpoint closed 84% of the pooled gap. At equal steps, rainy nighttime mAP was still 0.0206 lower.",
+    "source": "Seed 42 checkpoint diagnostic · Saved checkpoints · Inference only",
+    "notes": "I scored the saved early and late adaptive checkpoints and the late count-control checkpoint. The early checkpoint remains the reported result because its development loss was 1.1121 versus 1.1243 at the later step. The later score is a post hoc diagnostic. The rain–night mix is a possible factor in the remaining gap, but image identities and training dynamics also differ."
+  },
+  {
+    "section": "CONCLUSION",
+    "title": "What the night and rain experiments establish",
+    "bullets": [
+      [
+        "Night",
+        "Adaptive selection improved night mAP by 0.0157 over generic coverage. Matching the nighttime count recovered a substantial share."
+      ],
+      [
+        "Rain",
+        "The same selection rule gave mixed results and no clear gain over the matched rainy count."
+      ],
+      [
+        "Next experiment",
+        "Freeze a fresh evaluation split and a common checkpoint step before testing the rain rule again."
+      ]
+    ],
+    "callout": "A coverage objective gives a principled way to choose a subset. Its detector benefit depends on the target condition and must be measured.",
+    "source": "Limits · One detector, one dataset, one training budget",
+    "notes": "My contribution after midsem was the transfer test to rain, the rain-count comparison, the class audit and a checkpoint diagnostic by time of day. State that the fresh holdout is future work. Two endpoints worth declaring are rainy mAP as primary and rainy nighttime mAP as secondary."
+  },
+  {
+    "section": "APPENDIX",
+    "title": "Why the coverage objective is submodular",
+    "math": "\\Delta(i\\mid S)=\\sum_{t\\in A_i}\\frac{w_t}{\\sqrt{n_t(S)+1}+\\sqrt{n_t(S)}}",
+    "bullets": [
+      [
+        "Diminishing returns",
+        "Δ(i | A) ≥ Δ(i | B) when A is contained in B and i is outside B. Every token count is at most as large in A."
+      ],
+      [
+        "Greedy bound",
+        "For a cardinality budget, exact greedy reaches at least 1 − 1/e of the optimal coverage score."
+      ],
+      [
+        "Scope of the bound",
+        "The theorem concerns the coverage surrogate with a cardinality constraint. The exact-quota controls have a different feasible family."
+      ]
+    ],
+    "source": "Nemhauser, Wolsey & Fisher (1978) · Midsem report §§11–12",
+    "notes": "Rationalize √(n+1)−√n to get the displayed expression. Nonnegative weights also give monotonicity, and the empty set has score zero. The bound applies to the surrogate F. Detector mAP is evaluated empirically."
+  },
+  {
+    "section": "APPENDIX",
+    "title": "Per-seed rain scores and uncertainty",
+    "table": {
+      "heads": [
+        "Seed",
+        "Generic",
+        "Rain-count control",
+        "Rain-adaptive"
+      ],
+      "rows": [
+        [
+          "42",
+          "0.2551",
+          "0.2597",
+          "0.2368"
+        ],
+        [
+          "43",
+          "0.2569",
+          "0.2537",
+          "0.2559"
+        ],
+        [
+          "44",
+          "0.2598",
+          "0.2455",
+          "0.2567"
+        ],
+        [
+          "45",
+          "0.2396",
+          "0.2526",
+          "0.2550"
+        ],
+        [
+          "46",
+          "0.2411",
+          "0.2644",
+          "0.2654"
+        ],
+        [
+          "Mean",
+          "0.2505",
+          "0.2552",
+          "0.2539"
+        ]
+      ],
+      "emphasis": 5
+    },
+    "math": "\\bar d\\ \\pm\\ t_{0.975,4}\\,\\frac{s_d}{\\sqrt{5}}",
+    "source": "Rain experiment results · Interval reflects seed variation on the fixed 532-image slice",
+    "notes": "Compute the paired difference within each seed using full-precision AP, then average and calculate the t interval with four degrees of freedom. The interval does not include uncertainty from sampling new evaluation scenes."
+  },
+  {
+    "section": "APPENDIX",
+    "title": "References and experiment records",
+    "bullets": [
+      [
+        "Dataset",
+        "Yu et al., BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning, CVPR 2020."
+      ],
+      [
+        "Detector",
+        "Ren et al., Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks, NeurIPS 2015."
+      ],
+      [
+        "Optimization",
+        "Nemhauser, Wolsey and Fisher, An Analysis of Approximations for Maximizing Submodular Set Functions—I, Mathematical Programming, 1978."
+      ],
+      [
+        "Project record",
+        "Midsem report §§9–16, rain experiment protocol, five-seed rain results, class analysis and seed 42 checkpoint diagnostic."
+      ]
+    ],
+    "source": "MAC F266 · BDD100K project",
+    "notes": "Use this slide if asked about references or reproducibility. Training manifests, checkpoint histories, final metric files and the diagnostic scripts are available in the project folder."
+  }
+]

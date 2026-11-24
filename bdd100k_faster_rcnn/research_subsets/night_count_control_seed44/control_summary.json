@@ -1,0 +1,9 @@
+{
+  "seed": 44,
+  "budget": 7500,
+  "night_quota": 3851,
+  "night_selected": 3851,
+  "sha256": "4d7040e090825c233613eaacdcc829e3f9300f7857da58f61446e173a66c5b44",
+  "method": "generic coverage with exact night count",
+  "status": "post-final exploratory ablation"
+}

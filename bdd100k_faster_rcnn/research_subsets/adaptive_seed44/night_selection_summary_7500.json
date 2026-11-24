@@ -1,0 +1,208 @@
+{
+  "target": "night",
+  "budget": 7500,
+  "seed": 44,
+  "master_sha256": "044fc6afb5f21ca2a481092054da886b3273b2f58dd9792049c3c3f943852a8a",
+  "train_features": null,
+  "query_features": null,
+  "reference_metric_files": [
+    "outputs\\experiments\\benchmark_night_generic_coverage_seed42_steps7500\\domain_metrics_development.csv",
+    "outputs\\experiments\\benchmark_night_generic_coverage_seed43_steps7500\\domain_metrics_development.csv",
+    "outputs\\experiments\\benchmark_night_generic_coverage_seed44_steps7500\\domain_metrics_development.csv"
+  ],
+  "reference_class_gaps": {
+    "person": 0.07821375628312428,
+    "car": 0.09870062271753947,
+    "rider": 0.0,
+    "truck": 0.05233761668205261,
+    "bus": 0.036028782526652016,
+    "train": 0.0,
+    "motor": 0.0,
+    "bike": 0.08362859239180882,
+    "traffic light": 0.06192491948604584,
+    "traffic sign": 0.0
+  },
+  "methods": {
+    "random": {
+      "images": 7500,
+      "sha256": "3a28ada63de0b1a7c98e1db06b4371ffef36f3f0138d4be670d0d33d58f89077",
+      "timeofday": {
+        "daytime": 3941,
+        "night": 3013,
+        "dawn/dusk": 529,
+        "undefined": 17
+      },
+      "weather": {
+        "clear": 4022,
+        "overcast": 920,
+        "undefined": 926,
+        "partly cloudy": 509,
+        "rainy": 536,
+        "snowy": 575,
+        "foggy": 12
+      },
+      "class_image_counts": {
+        "person": 2355,
+        "car": 7425,
+        "rider": 384,
+        "truck": 2011,
+        "bus": 929,
+        "train": 10,
+        "motor": 265,
+        "bike": 430,
+        "traffic light": 4133,
+        "traffic sign": 6185
+      }
+    },
+    "target_only": {
+      "images": 7500,
+      "sha256": "3a6d0d9152105e9a8b18fd7087b358a939e6403138b976b4fc86da76cef6dc5b",
+      "timeofday": {
+        "night": 7500
+      },
+      "weather": {
+        "clear": 6119,
+        "snowy": 583,
+        "rainy": 627,
+        "undefined": 119,
+        "foggy": 18,
+        "overcast": 16,
+        "partly cloudy": 18
+      },
+      "class_image_counts": {
+        "person": 1468,
+        "car": 7394,
+        "rider": 188,
+        "truck": 1054,
+        "bus": 513,
+        "train": 8,
+        "motor": 142,
+        "bike": 235,
+        "traffic light": 4883,
+        "traffic sign": 6092
+      }
+    },
+    "manual_80pct_night": {
+      "images": 7500,
+      "sha256": "3372f16c324dc579b4c0b9400772413909853dfcc63bb7c4ac5a360beaced6d9",
+      "timeofday": {
+        "night": 6000,
+        "daytime": 1500
+      },
+      "weather": {
+        "clear": 5418,
+        "snowy": 594,
+        "rainy": 591,
+        "undefined": 380,
+        "foggy": 24,
+        "partly cloudy": 193,
+        "overcast": 300
+      },
+      "class_image_counts": {
+        "person": 1810,
+        "car": 7405,
+        "rider": 258,
+        "truck": 1440,
+        "bus": 636,
+        "train": 9,
+        "motor": 179,
+        "bike": 318,
+        "traffic light": 4702,
+        "traffic sign": 6093
+      }
+    },
+    "generic_coverage": {
+      "images": 7500,
+      "sha256": "cca1d6cf05c04dbbebd9f970e58618cbf2d077878b17b7a85815322823786b64",
+      "timeofday": {
+        "dawn/dusk": 2452,
+        "daytime": 3250,
+        "night": 1732,
+        "undefined": 66
+      },
+      "weather": {
+        "foggy": 130,
+        "clear": 1485,
+        "partly cloudy": 1349,
+        "rainy": 1455,
+        "snowy": 1550,
+        "overcast": 1384,
+        "undefined": 147
+      },
+      "class_image_counts": {
+        "person": 3202,
+        "car": 7456,
+        "rider": 1657,
+        "truck": 2834,
+        "bus": 1820,
+        "train": 105,
+        "motor": 1040,
+        "bike": 1476,
+        "traffic light": 4331,
+        "traffic sign": 6198
+      }
+    },
+    "target_aware": {
+      "images": 7500,
+      "sha256": "c9410da0ae198254e5879f7a002d96ab588ec96d8064d7ace2cf71092d5c994f",
+      "timeofday": {
+        "night": 6050,
+        "dawn/dusk": 738,
+        "daytime": 706,
+        "undefined": 6
+      },
+      "weather": {
+        "clear": 2779,
+        "foggy": 130,
+        "rainy": 1869,
+        "partly cloudy": 456,
+        "overcast": 444,
+        "snowy": 1764,
+        "undefined": 58
+      },
+      "class_image_counts": {
+        "person": 2396,
+        "car": 7449,
+        "rider": 1101,
+        "truck": 2041,
+        "bus": 1218,
+        "train": 100,
+        "motor": 727,
+        "bike": 980,
+        "traffic light": 5004,
+        "traffic sign": 6093
+      }
+    },
+    "adaptive_target_aware": {
+      "images": 7500,
+      "sha256": "fc8c44ac05aab28490252ddd3b32f252d834a64f3394c7e377a8bdc9ae099349",
+      "timeofday": {
+        "night": 3851,
+        "dawn/dusk": 1749,
+        "daytime": 1865,
+        "undefined": 35
+      },
+      "weather": {
+        "snowy": 1409,
+        "foggy": 130,
+        "clear": 2533,
+        "partly cloudy": 983,
+        "rainy": 1392,
+        "overcast": 936,
+        "undefined": 117
+      },
+      "class_image_counts": {
+        "person": 3440,
+        "car": 7463,
+        "rider": 1544,
+        "truck": 2852,
+        "bus": 1976,
+        "train": 105,
+        "motor": 1009,
+        "bike": 1563,
+        "traffic light": 5098,
+        "traffic sign": 6322
+      }
+    }
+  }
+}

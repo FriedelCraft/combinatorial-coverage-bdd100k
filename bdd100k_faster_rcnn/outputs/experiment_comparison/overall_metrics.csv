@@ -1,0 +1,5 @@
+model,model_name,map_50_95,map_50,map_75,mar_100,micro_precision,micro_recall,micro_f1
+full_baseline,Full 70k baseline,0.2427,0.4743,0.2137,0.3574,0.6516,0.7095,0.6793
+day_heavy,Day-heavy,0.188,0.3803,0.1613,0.2981,0.6036,0.6312,0.6171
+balanced,Balanced,0.1629,0.3432,0.1345,0.2766,0.5741,0.637,0.6039
+night_heavy,Night-heavy,0.161,0.3367,0.1349,0.2774,0.5932,0.6201,0.6063

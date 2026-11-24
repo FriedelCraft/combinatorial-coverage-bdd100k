@@ -1,0 +1,75 @@
+{
+  "target": "rainy",
+  "target_field": "weather",
+  "seed": 43,
+  "budget": 7500,
+  "rainy_quota": 2851,
+  "master_sha256": "044fc6afb5f21ca2a481092054da886b3273b2f58dd9792049c3c3f943852a8a",
+  "reference_development_metrics": [
+    {
+      "path": "outputs\\experiments\\benchmark_night_generic_coverage_seed42_steps7500\\domain_metrics_development_with_nonrain.csv",
+      "sha256": "06688d0cff3c98ecf4db045dc7a2a08dee8c3284f94a5811f3c6fd9f86228824"
+    },
+    {
+      "path": "outputs\\experiments\\benchmark_night_generic_coverage_seed43_steps7500\\domain_metrics_development_with_nonrain.csv",
+      "sha256": "20ae79323fc33534b9b832e76fa032a777898cf3f341da4c26f42bfb9bf36e0f"
+    },
+    {
+      "path": "outputs\\experiments\\benchmark_night_generic_coverage_seed44_steps7500\\domain_metrics_development_with_nonrain.csv",
+      "sha256": "a2be86bb2c1a2e1ba0ef33c459b21357a4db6f091e8c72f828e19729c0a0b9f2"
+    }
+  ],
+  "reference_class_gaps": {
+    "person": 0.011226912339528402,
+    "car": 0.017073333263397217,
+    "rider": 0.0,
+    "truck": 0.012179374694824219,
+    "bus": 0.03816629449526469,
+    "train": 0.0,
+    "motor": 0.0,
+    "bike": 0.05823429922262827,
+    "traffic light": 0.009464472532272339,
+    "traffic sign": 0.018419206142425537
+  },
+  "gap_coefficient": 12.0,
+  "methods": {
+    "adaptive_target_aware": {
+      "images": 7500,
+      "sha256": "3572046dbfad07b929c23f0594e74164440645ccea1ddaf635d7e37bdabd61c0",
+      "weather": {
+        "rainy": 2851,
+        "foggy": 130,
+        "clear": 1081,
+        "partly cloudy": 1066,
+        "snowy": 1204,
+        "overcast": 1049,
+        "undefined": 119
+      },
+      "timeofday": {
+        "daytime": 3412,
+        "dawn/dusk": 2105,
+        "night": 1939,
+        "undefined": 44
+      }
+    },
+    "rain_count_control": {
+      "images": 7500,
+      "sha256": "abc963f85a84b20ca434dbdaa005932a6aa48ae1e92f14c5c5a3f1a710ef01c8",
+      "weather": {
+        "foggy": 130,
+        "clear": 1094,
+        "partly cloudy": 1064,
+        "rainy": 2851,
+        "snowy": 1199,
+        "overcast": 1048,
+        "undefined": 114
+      },
+      "timeofday": {
+        "dawn/dusk": 2022,
+        "daytime": 3335,
+        "night": 2103,
+        "undefined": 40
+      }
+    }
+  }
+}

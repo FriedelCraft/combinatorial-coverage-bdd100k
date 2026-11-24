@@ -1,0 +1,4 @@
+subset,total_images,daytime_images,night_images,total_boxes,person,car,rider,truck,bus,train,motor,bike,traffic light,traffic sign
+day_heavy,7500,6000,1500,138768,10292,78288,461,3858,1526,17,328,787,18789,24422
+balanced,7500,3750,3750,131290,7734,75200,375,2908,1136,10,263,651,19588,23425
+night_heavy,7500,1500,6000,124817,5760,72329,281,1906,749,7,211,494,20659,22421

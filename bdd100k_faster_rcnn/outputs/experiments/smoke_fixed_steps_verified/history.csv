@@ -1,0 +1,2 @@
+epoch,global_step,train_loss,val_loss,learning_rate
+1,2,2.757343053817749,4.126645088195801,0.0005

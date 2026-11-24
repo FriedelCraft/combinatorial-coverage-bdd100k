@@ -1,0 +1,70 @@
+{
+  "seed": 20260928,
+  "master_sha256": "835d7a8f10079e2e88c27e6efdb28c1359de506e31628948f456ec09208d194f",
+  "groups": {
+    "query_night": {
+      "images": 400,
+      "sha256": "0d61e598d97f6d668b80042356ca8e3af236991966617550bea72cc13bae7345",
+      "timeofday": {
+        "night": 400
+      },
+      "weather": {
+        "clear": 333,
+        "undefined": 8,
+        "snowy": 30,
+        "rainy": 28,
+        "overcast": 1
+      }
+    },
+    "query_rain": {
+      "images": 100,
+      "sha256": "5421d82e1c36b56411a26f9c2b75c811c2ec31bb5098007e67ec99d90fec38c1",
+      "timeofday": {
+        "night": 33,
+        "daytime": 59,
+        "dawn/dusk": 7,
+        "undefined": 1
+      },
+      "weather": {
+        "rainy": 100
+      }
+    },
+    "development": {
+      "images": 1000,
+      "sha256": "3b5068140e51918807498f447f24a9cb531f614413f8beb82bdbfeb87473605e",
+      "timeofday": {
+        "daytime": 549,
+        "night": 370,
+        "dawn/dusk": 73,
+        "undefined": 8
+      },
+      "weather": {
+        "rainy": 78,
+        "clear": 513,
+        "undefined": 121,
+        "snowy": 72,
+        "partly cloudy": 91,
+        "overcast": 125
+      }
+    },
+    "final_evaluation": {
+      "images": 8500,
+      "sha256": "f044b5af033c64104ad80df9279fb1fa4eb987e61806a88a80940a243ff312dc",
+      "timeofday": {
+        "night": 3126,
+        "daytime": 4650,
+        "dawn/dusk": 698,
+        "undefined": 26
+      },
+      "weather": {
+        "clear": 4500,
+        "overcast": 1113,
+        "undefined": 1028,
+        "partly cloudy": 647,
+        "snowy": 667,
+        "rainy": 532,
+        "foggy": 13
+      }
+    }
+  }
+}
